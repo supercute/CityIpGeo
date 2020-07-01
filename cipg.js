@@ -1,4 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
+    $('body').append(
+        '<div id="cipg-modal" class="modal">' +
+        '        <div class="cipg-modal__title">Выберите ваш город</div>' +
+        '        <input id="city-search" type="text" placeholder="Введите название">' +
+        '        <div id="city-search__dropdown"></div>' +
+        '        <a href="#" rel="modal:close">Close</a>' +
+        '    </div>'
+    );
     $.ajax({
         type: 'POST',
         url: '/cipg.php',
