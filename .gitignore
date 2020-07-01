@@ -1,0 +1,8 @@
+/IpGeoBase/DB/*
+/nbproject/*
+*.log
+*.csv
+*.lock
+.DS_Store
+.idea/*
+composer.json
