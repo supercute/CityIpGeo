@@ -18,16 +18,13 @@ if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
     $util = new IpGeoBaseUtil();
     try {
         $util->loadArchive($path);
+        $util->convertInBinary($path);
+        echo "База городов успешно загружена";
+
     } catch (Exception $e){
         echo "Ошибка скачивания";
     }
-
-    try {
-        $util->convertInBinary($path);
-    } catch (Exception $e) {
-        echo "Ошибка конвертации";
-    }
-    echo "База городов успешно загружена";
+    
 }
 
 $ip = new RemoteAddress();
