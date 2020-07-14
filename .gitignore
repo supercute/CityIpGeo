@@ -1,4 +1,4 @@
-/IpGeoBase/DB/*
+/DB/*
 /nbproject/*
 *.log
 *.csv
