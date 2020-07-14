@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
+    $('#cipg-city').attr('href', '#cipg-modal');
+    $('#cipg-city').attr('rel', 'modal:open');
     $('body').append(
         '<div id="cipg-modal" class="modal">' +
         '        <div class="cipg-modal__title">Выберите ваш город</div>' +
@@ -49,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
+/*TODO: Переписать модальное окно */
 /*
     A simple jQuery modal (http://github.com/kylefox/jquery-modal)
     Version 0.9.2

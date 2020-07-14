@@ -11,7 +11,7 @@
     padding: 20px;
     box-sizing: border-box;
     background-color: #000;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.3);
     text-align: center;
 }
 .blocker:before {
@@ -38,12 +38,7 @@
     -moz-border-radius: 8px;
     -o-border-radius: 8px;
     -ms-border-radius: 8px;
-    border-radius: 8px;
-    -webkit-box-shadow: 0 0 10px #000;
-    -moz-box-shadow: 0 0 10px #000;
-    -o-box-shadow: 0 0 10px #000;
-    -ms-box-shadow: 0 0 10px #000;
-    box-shadow: 0 0 10px #000;
+    border-radius: 5px;
     text-align: left;
 }
 .modal a.close-modal {
