@@ -1,21 +1,21 @@
 <?php
 
-use CIPG\IpGeoBase\IpGeoBase\IpGeoBase;
-use CIPG\IpGeoBase\Utils\IpGeoBaseUtil\IpGeoBaseUtil;
-use CIPG\IpGeoBase\Utils\RemoteAddress\RemoteAddress;
+use CIPG\Core\IpGeoBase;
+use CIPG\Utils\IpGeoBaseUtils;
+use CIPG\Utils\RemoteAddress;
 
-require_once 'IpGeoBase/Utils/RemoteAddress.php';
-require_once 'IpGeoBase/IpGeoBase.php';
-require_once 'IpGeoBase/Utils/IpGeoBaseUtil.php';
+require_once 'Core/Utils/RemoteAddress.php';
+require_once 'Core/IpGeoBase.php';
+require_once 'Core/Utils/IpGeoBaseUtils.php';
 
-$path = __DIR__ . '/IpGeoBase/DB';
+$path = __DIR__ . '/DB';
 
 if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
     /**
      * Загружаем данные с ipgeobase.ru и конвертируем в бинарный файл
      * Данные обновляеются ежедневно, имеет смысл поставить задачу на крон
      */
-    $util = new IpGeoBaseUtil();
+    $util = new IpGeoBaseUtils();
     try {
         $util->loadArchive($path);
         $util->convertInBinary($path);
@@ -60,5 +60,5 @@ if (file_exists($path)) {
         echo $_COOKIE['CIPG_CITY'];
     }
 } else {
-    echo "Не найдена база городов, загрузите /cipg.php?upload_db=y";
+    echo "Не найдена база городов, загрузите /cipg/cipg.php?upload_db=y";
 }

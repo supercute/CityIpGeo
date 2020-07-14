@@ -1,11 +1,11 @@
 <?php
 
-namespace CIPG\IpGeoBase\Utils\IpGeoBaseUtil;
+namespace CIPG\Utils;
 
 /**
  * @author Danil Shumskikh <d@shumskikh.ru>
  */
-class IpGeoBaseUtil
+class IpGeoBaseUtils
 {
     const MAX_SITY_ID_LENGTH = 4;
     private $archiveUri = 'http://ipgeobase.ru/files/db/Main/geo_files.tar.gz';

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace CIPG\IpGeoBase\Utils\RemoteAddress;
+namespace CIPG\Utils;
 
 
 class RemoteAddress

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace CIPG\IpGeoBase\IpGeoBase;
+namespace CIPG\Core;
 
 /**
  *
