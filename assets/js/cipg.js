@@ -1,14 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
+    $.getJSON( "default_cities.json", function (data) { // указываем url и функцию обратного вызова
+        let cities = data['cities'];
+        $('.cipg-cities').append('<ul></ul>');
+        $.each(cities, function(key, val) {
+            $('.cipg-cities ul').append('<li><a href="#" class="cipg-cities__item" id="'+val+'">'+val+'</a></li>');
+        });
+    });
+
     $('#cipg-city').attr('href', '#cipg-modal');
     $('#cipg-city').attr('rel', 'modal:open');
-    $('body').append(
-        '<div id="cipg-modal" class="modal">' +
-        '        <div class="cipg-modal__title">Выберите ваш город</div>' +
-        '        <input id="city-search" type="text" placeholder="Введите название">' +
-        '        <div id="city-search__dropdown"></div>' +
-        '        <a href="#" rel="modal:close">Close</a>' +
-        '    </div>'
-    );
+    // $('body').append(
+    //     '<div id="cipg-modal" class="modal">' +
+    //     '        <div class="cipg-modal__title">Выберите ваш город</div>' +
+    //     '        <input id="cipg-search" type="text" placeholder="Введите название">' +
+    //     '        <div id="cipg-search__dropdown"></div>' +
+    //     '        <a href="#" rel="modal:close">Close</a>' +
+    //     '    </div>'
+    // );
     $.ajax({
         type: 'POST',
         url: '/cipg.php',
@@ -17,34 +25,37 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#cipg-city").html(data);
         }
     });
-    $('#city-search').on('input', function () {
-        $('#city-search__dropdown').empty();
+    $('#cipg-search').on('input', function () {
+        $('#cipg-search__dropdown').empty();
        $.ajax({
            type: 'POST',
            url: '/cipg.php',
            dataType: 'json',
-           data: "query=" + $("#city-search").val(),
+           data: "query=" + $("#cipg-search").val(),
            success: function (data) {
                $.each(data, function (key,location) {
                    if (location !== 'unknown') {
-                       $('#city-search__dropdown').append(
-                           '<a href="#" class="city-search__dropdown-item" id="'+location['city']+'">'+location['city']+', '+location['region'] +'</a>'
+                       $('#cipg-search__dropdown').append(
+                           '<a href="#" class="cipg-search__dropdown-item" id="'+location['city']+'">'+location['city']+', '+location['region'] +'</a>'
                        );
                    }
                })
            }
        });
     });
-    $('#cipg-modal').on('click', '.city-search__dropdown-item', function () {
+    //TODO: Вынести ajax в отдельную функцию
+    //TODO: Дописать проверку на наличие и функцию
+    $('#cipg-modal').on('click', '.cipg-search__dropdown-item', function () {
         $.ajax({
             type: 'POST',
             url: '/cipg.php',
-            data: "selected_city="+$('.city-search__dropdown-item').attr('id'),
+            data: "selected_city="+$('.cipg-search__dropdown-item').attr('id'),
             success: function () {
-                window.location.href = '/';
+                // window.location.reload();
             }
         });
     });
+
 
 });
 
