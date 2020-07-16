@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('.cipg-cities').append('<ul></ul>');
         $.each(data, function(cityId, city) {
             $('.cipg-cities ul').append('<li><a href="#" class="cipg-cities__item" id="'+cityId+'">'+city+'</a></li>');
-            selectCityAjax(cityId, cityId);
+            selectCityAjax('cipg-cities__item',cityId, cityId);
         });
     });
     $('#cipg-search').on('input', function () {
@@ -44,21 +44,21 @@ document.addEventListener("DOMContentLoaded", function () {
                        $('#cipg-search__dropdown').append(
                            '<a href="#" class="cipg-search__dropdown-item" id="'+location['cityId']+'">'+location['city']+', '+location['region'] +'</a>'
                        );
-                        selectCityAjax(location['cityId'], location['cityId']);
+                        selectCityAjax('cipg-search__dropdown-item',location['cityId'], location['cityId']);
                    }
                });
            }
        });
     });
 
-    function selectCityAjax(id, selected_city) {
-       $('#' + id).click(function () {
+    function selectCityAjax(selectorClass, id, selectedCity) {
+       $('#' + id + '.'+selectorClass).click(function () {
             $.ajax({
                 type: 'POST',
                 url: '/cipg.php',
-                data: "selected_city=" + selected_city,
+                data: "selected_city=" + selectedCity,
                 success: function () {
-                    // window.location.reload();
+                    window.location.reload(true); //Перезагружает страницу без кеша
                 }
             });
         });
