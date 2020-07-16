@@ -1,15 +1,18 @@
 document.addEventListener("DOMContentLoaded", function () {
     $('#cipg-city').attr('href', '#cipg-modal');
     $('#cipg-city').attr('rel', 'modal:open');
+    $('body').append(
+        '<div id="cipg-modal" class="modal">' +
+        '        <div class="cipg-modal__title">Выберите ваш город</div>' +
+        '        <div class="cipg-cities"></div>' +
+        '        <div class="cipg-search__wrapper">' +
+        '            <div class="cipg-search__title">Или найдите в поиске</div>' +
+        '            <input id="cipg-search" type="text" placeholder="Поиск">' +
+        '            <div id="cipg-search__dropdown"></div>' +
+        '        </div>' +
+        '    </div>'
+    );
     $('#cipg-search__dropdown').hide();
-    // $('body').append(
-    //     '<div id="cipg-modal" class="modal">' +
-    //     '        <div class="cipg-modal__title">Выберите ваш город</div>' +
-    //     '        <input id="cipg-search" type="text" placeholder="Введите название">' +
-    //     '        <div id="cipg-search__dropdown"></div>' +
-    //     '        <a href="#" rel="modal:close">Close</a>' +
-    //     '    </div>'
-    // );
     $.ajax({
         type: 'POST',
         url: '/cipg.php',
