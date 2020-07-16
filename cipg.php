@@ -55,7 +55,7 @@ function setSelectedCity(array $locations)
 {
     foreach ($locations as $location) {
         if (intval($_POST['selected_city']) === intval($location['cityId'])) {
-            setcookie("CIPG_CITY", $location['city']);
+            setcookie("CIPG_CITY", $location['city'], time()+3600);
             return true;
         }
     }
