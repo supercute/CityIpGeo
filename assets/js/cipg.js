@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     $.ajax({
         type: 'POST',
         url: '/cipg.php',
-        data: '',
+        data: 'get_city = Y',
         success: function(data) {
             $("#cipg-city").html(data);
         }

@@ -12,7 +12,7 @@ $path = __DIR__ . '/DB';
 
 if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
     /**
-     * Загружаем данные с ipgeobase.ru и конвертируем в бинарный файл
+     * Загружает данные с ipgeobase.ru и конвертирует в бинарный файл
      * Данные обновляеются ежедневно, имеет смысл поставить задачу на крон
      */
     $util = new IpGeoBaseUtils();
@@ -24,7 +24,6 @@ if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
     } catch (Exception $e){
         echo "Ошибка скачивания";
     }
-
 }
 
 /**
@@ -64,14 +63,15 @@ function setSelectedCity(array $locations)
 }
 
 if (file_exists($path)) {
-    $ip = new RemoteAddress();
     try {
         $ipGeoBase = new IpGeoBase($path);
     } catch (Exception $e) {
         echo "Ошибка создания обьекта класса ipGeoBase";
     }
 
-    $info =  $ipGeoBase->search('94.181.214.151');
+    $ip = new RemoteAddress();
+    $ip->getIpAddress();
+    $info =  $ipGeoBase->search('77.88.55.80'); //Яндекс ip (Москва)
 
     if (!isset($_COOKIE['CIPG_CITY'])) {
         $_COOKIE['CIPG_CITY'] = $info['city'];
