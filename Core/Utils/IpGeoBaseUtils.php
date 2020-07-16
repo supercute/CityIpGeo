@@ -88,6 +88,7 @@ class IpGeoBaseUtils
         foreach($cities as $item){
             $len = strlen(
                 $item['country'] . chr(0) .
+                $item['cityId'] . chr(0) .
                 $item['city'] . chr(0) . 
                 $item['region'] . chr(0) . 
                 $item['district'] . chr(0) . 
@@ -103,6 +104,7 @@ class IpGeoBaseUtils
             fwrite($handle, 
                             str_pad(
                                     $item['country'] . chr(0) .
+                                    $item['cityId'] . chr(0) .
                                     $item['city'] . chr(0) .
                                     $item['region'] . chr(0) .
                                     $item['district'] . chr(0) .
@@ -257,6 +259,7 @@ class IpGeoBaseUtils
         
         $cities[0] = array(
             'country' => 'unknown',
+            'cityId' => 'unknown',
             'city' => 'unknown',
             'region' => 'unknown',
             'district' => 'unknown',
@@ -269,6 +272,7 @@ class IpGeoBaseUtils
                 $t = array_map('trim', explode("\t", $buffer));
                 $cities[$t[0]] = array(
                     'country' => 'unknown',
+                    'cityId' => $t[0],
                     'city' => $t[1],
                     'region' => $t[2],
                     'district' => $t[3],

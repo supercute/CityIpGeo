@@ -36,6 +36,7 @@ if (file_exists($path)) {
 
     $info =  $ipGeoBase->search('94.181.214.151');
     $locations = $ipGeoBase->listLocations();
+    var_dump($locations);
 
     if (isset($_POST['query'])) {
         $query = $_POST['query'];

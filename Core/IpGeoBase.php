@@ -71,6 +71,7 @@ class IpGeoBase
             
             return array_combine(array(
                 'country',
+                'cityId',
                 'city',
                 'region',
                 'district',
@@ -115,6 +116,7 @@ class IpGeoBase
             $list[] =
                 array_combine(array(
                     'country',
+                    'cityId',
                     'city',
                     'region',
                     'district',

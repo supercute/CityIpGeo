@@ -38,9 +38,9 @@ document.addEventListener("DOMContentLoaded", function () {
                        $('#cipg-search__dropdown').append(
                            '<a href="#" class="cipg-search__dropdown-item" id="'+location['city']+'">'+location['city']+', '+location['region'] +'</a>'
                        );
-                      selectCityAjax(location['city'], location['city'])
+                      selectCityAjax(location['city'], location['city']);
                    }
-               })
+               });
            }
        });
     });
