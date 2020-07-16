@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     $('#cipg-city').attr('href', '#cipg-modal');
     $('#cipg-city').attr('rel', 'modal:open');
+    $('#cipg-search__dropdown').hide();
     // $('body').append(
     //     '<div id="cipg-modal" class="modal">' +
     //     '        <div class="cipg-modal__title">Выберите ваш город</div>' +
@@ -25,6 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     $('#cipg-search').on('input', function () {
+        if ($("input[id$='cipg-search']").length > 0) {
+            $('#cipg-search__dropdown').show();
+        }
+
         $('#cipg-search__dropdown').empty();
         $.ajax({
            type: 'POST',
@@ -57,7 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
 
 /*TODO: Переписать модальное окно */
 /*

@@ -1,13 +1,46 @@
 .cipg-search__dropdown-item {
     display: block;
 }
+.cipg-modal__title {}
+.cipg-search__wrapper {}
+#cipg-search {
+    border: 1px solid #DBDBDB;
+    padding: 10px 15px;
+    border-radius: 5px;
+    width: 95%;
+}
+#cipg-search__dropdown {
+    max-height: 300px;
+    overflow: auto;
+    padding-top: 10px;
+    border: 1px solid #DBDBDB;
+    border-radius: 2px;
+    display: none;
+}
+.cipg-search__dropdown-item {
+    padding: 10px;
+    color: #25282c;
+}
+.cipg-search__dropdown-item:hover{
+    background-color: #E0E8EA;
+}
+.cipg-cities {}
+.cipg-cities__item {}
 
+.cipg-cities ul {
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    border-top: 1px solid #ccc;
 
-
-
-
-
-
+}
+.cipg-cities ul li {
+    line-height:1.5em;
+    border-bottom:1px solid #ccc;
+    float:left;
+    display:inline;
+    width: 33.333%;
+}
 
 
 
