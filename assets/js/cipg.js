@@ -1,12 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-    $.getJSON( "default_cities.json", function (data) { // указываем url и функцию обратного вызова
-        let cities = data['cities'];
-        $('.cipg-cities').append('<ul></ul>');
-        $.each(cities, function(key, val) {
-            $('.cipg-cities ul').append('<li><a href="#" class="cipg-cities__item" id="'+val+'">'+val+'</a></li>');
-        });
-    });
-
     $('#cipg-city').attr('href', '#cipg-modal');
     $('#cipg-city').attr('rel', 'modal:open');
     // $('body').append(
@@ -25,6 +17,14 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#cipg-city").html(data);
         }
     });
+    $.getJSON( "default_cities.json", function (data) { // указываем url и функцию обратного вызова
+        let cities = data['cities'];
+        $('.cipg-cities').append('<ul></ul>');
+        $.each(cities, function(key, city) {
+            $('.cipg-cities ul').append('<li><a href="#" class="cipg-cities__item" id="'+city+'">'+city+'</a></li>');
+            selectCityAjax(city, city);
+        });
+    });
     $('#cipg-search').on('input', function () {
         $('#cipg-search__dropdown').empty();
        $.ajax({
@@ -38,25 +38,25 @@ document.addEventListener("DOMContentLoaded", function () {
                        $('#cipg-search__dropdown').append(
                            '<a href="#" class="cipg-search__dropdown-item" id="'+location['city']+'">'+location['city']+', '+location['region'] +'</a>'
                        );
+                      selectCityAjax(location['city'], location['city'])
                    }
                })
            }
        });
     });
-    //TODO: Вынести ajax в отдельную функцию
-    //TODO: Дописать проверку на наличие и функцию
-    $('#cipg-modal').on('click', '.cipg-search__dropdown-item', function () {
-        $.ajax({
-            type: 'POST',
-            url: '/cipg.php',
-            data: "selected_city="+$('.cipg-search__dropdown-item').attr('id'),
-            success: function () {
-                // window.location.reload();
-            }
+
+    function selectCityAjax(id, selected_city) {
+       $('#' + id).click(function () {
+            $.ajax({
+                type: 'POST',
+                url: '/cipg.php',
+                data: "selected_city=" + selected_city,
+                success: function () {
+                    // window.location.reload();
+                }
+            });
         });
-    });
-
-
+    }
 });
 
 

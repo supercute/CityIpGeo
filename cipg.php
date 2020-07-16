@@ -8,7 +8,6 @@ require_once 'Core/Utils/RemoteAddress.php';
 require_once 'Core/IpGeoBase.php';
 require_once 'Core/Utils/IpGeoBaseUtils.php';
 
-$config = require_once __DIR__.'/config.php';
 $path = __DIR__ . '/DB';
 
 if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
