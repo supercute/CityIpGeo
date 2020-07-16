@@ -36,7 +36,7 @@ if (file_exists($path)) {
 
     $info =  $ipGeoBase->search('94.181.214.151');
     $locations = $ipGeoBase->listLocations();
-    var_dump($locations);
+//    var_dump($locations);
 
     if (isset($_POST['query'])) {
         $query = $_POST['query'];
@@ -52,8 +52,12 @@ if (file_exists($path)) {
             echo 'Не найдено результатов';
         }
     } else if (isset($_POST['selected_city'])) {
-        setcookie("CIPG_CITY", $_POST['selected_city']);
-        return true;
+        foreach ($locations as $location) {
+            if (intval($_POST['selected_city']) === intval($location['cityId'])) {
+                setcookie("CIPG_CITY", $location['city']);
+                return true;
+            }
+        }
     } else {
         if (!isset($_COOKIE['CIPG_CITY'])) {
             setcookie("CIPG_CITY", $info['city']);

@@ -18,11 +18,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     $.getJSON( "default_cities.json", function (data) { // указываем url и функцию обратного вызова
-        let cities = data['cities'];
         $('.cipg-cities').append('<ul></ul>');
-        $.each(cities, function(key, city) {
-            $('.cipg-cities ul').append('<li><a href="#" class="cipg-cities__item" id="'+city+'">'+city+'</a></li>');
-            selectCityAjax(city, city);
+        $.each(data, function(cityId, city) {
+            $('.cipg-cities ul').append('<li><a href="#" class="cipg-cities__item" id="'+cityId+'">'+city+'</a></li>');
+            selectCityAjax(cityId, cityId);
         });
     });
     $('#cipg-search').on('input', function () {
@@ -36,9 +35,9 @@ document.addEventListener("DOMContentLoaded", function () {
                $.each(data, function (key,location) {
                    if (location !== 'unknown') {
                        $('#cipg-search__dropdown').append(
-                           '<a href="#" class="cipg-search__dropdown-item" id="'+location['city']+'">'+location['city']+', '+location['region'] +'</a>'
+                           '<a href="#" class="cipg-search__dropdown-item" id="'+location['cityId']+'">'+location['city']+', '+location['region'] +'</a>'
                        );
-                      selectCityAjax(location['city'], location['city']);
+                      selectCityAjax(location['cityId'], location['cityId']);
                    }
                });
            }
