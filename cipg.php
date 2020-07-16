@@ -9,23 +9,7 @@ require_once 'Core/IpGeoBase.php';
 require_once 'Core/Utils/IpGeoBaseUtils.php';
 
 $path = __DIR__ . '/DB';
-
-if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
-    /**
-     * Загружаем данные с ipgeobase.ru и конвертируем в бинарный файл
-     * Данные обновляеются ежедневно, имеет смысл поставить задачу на крон
-     */
-    $util = new IpGeoBaseUtils();
-    try {
-        $util->loadArchive($path);
-        $util->convertInBinary($path);
-        echo "База городов успешно загружена";
-
-    } catch (Exception $e){
-        echo "Ошибка скачивания";
-    }
-    
-}
+//TODO: Разрести по функциям запросы
 if (file_exists($path)) {
     $ip = new RemoteAddress();
     try {
@@ -35,6 +19,11 @@ if (file_exists($path)) {
     }
 
     $info =  $ipGeoBase->search('94.181.214.151');
+
+    if (!isset($_COOKIE['CIPG_CITY'])) {
+        $_COOKIE['CIPG_CITY'] = $info['city'];
+    }
+
     $locations = $ipGeoBase->listLocations();
 //    var_dump($locations);
 
@@ -59,11 +48,26 @@ if (file_exists($path)) {
             }
         }
     } else {
-        if (!isset($_COOKIE['CIPG_CITY'])) {
-            setcookie("CIPG_CITY", $info['city']);
-        }
-        echo $_COOKIE['CIPG_CITY'];
+            echo $_COOKIE['CIPG_CITY'];
     }
+
 } else {
     echo "Не найдена база городов, загрузите /cipg/cipg.php?upload_db=y";
+}
+
+if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
+    /**
+     * Загружаем данные с ipgeobase.ru и конвертируем в бинарный файл
+     * Данные обновляеются ежедневно, имеет смысл поставить задачу на крон
+     */
+    $util = new IpGeoBaseUtils();
+    try {
+        $util->loadArchive($path);
+        $util->convertInBinary($path);
+        echo "База городов успешно загружена";
+
+    } catch (Exception $e){
+        echo "Ошибка скачивания";
+    }
+
 }

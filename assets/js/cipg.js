@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     $('#cipg-search').on('input', function () {
         $('#cipg-search__dropdown').empty();
-       $.ajax({
+        $.ajax({
            type: 'POST',
            url: '/cipg.php',
            dataType: 'json',
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
                        $('#cipg-search__dropdown').append(
                            '<a href="#" class="cipg-search__dropdown-item" id="'+location['cityId']+'">'+location['city']+', '+location['region'] +'</a>'
                        );
-                      selectCityAjax(location['cityId'], location['cityId']);
+                        selectCityAjax(location['cityId'], location['cityId']);
                    }
                });
            }
@@ -57,8 +57,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
-
-
 
 
 /*TODO: Переписать модальное окно */
