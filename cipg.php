@@ -9,51 +9,6 @@ require_once 'Core/IpGeoBase.php';
 require_once 'Core/Utils/IpGeoBaseUtils.php';
 
 $path = __DIR__ . '/DB';
-//TODO: Разрести по функциям запросы
-if (file_exists($path)) {
-    $ip = new RemoteAddress();
-    try {
-        $ipGeoBase = new IpGeoBase($path);
-    } catch (Exception $e) {
-        echo "Ошибка создания обьекта класса ipGeoBase";
-    }
-
-    $info =  $ipGeoBase->search('94.181.214.151');
-
-    if (!isset($_COOKIE['CIPG_CITY'])) {
-        $_COOKIE['CIPG_CITY'] = $info['city'];
-    }
-
-    $locations = $ipGeoBase->listLocations();
-//    var_dump($locations);
-
-    if (isset($_POST['query'])) {
-        $query = $_POST['query'];
-        foreach ($locations as $location) {
-            if (mb_stripos($location['city'], $query,0,'UTF-8') !== false) {
-                $searchLocations[] = $location;
-            }
-        }
-        header('Content-type: application/json');
-        if (!empty($searchLocations)) {
-            echo json_encode($searchLocations);
-        } else {
-            echo 'Не найдено результатов';
-        }
-    } else if (isset($_POST['selected_city'])) {
-        foreach ($locations as $location) {
-            if (intval($_POST['selected_city']) === intval($location['cityId'])) {
-                setcookie("CIPG_CITY", $location['city']);
-                return true;
-            }
-        }
-    } else {
-            echo $_COOKIE['CIPG_CITY'];
-    }
-
-} else {
-    echo "Не найдена база городов, загрузите /cipg/cipg.php?upload_db=y";
-}
 
 if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
     /**
@@ -70,4 +25,68 @@ if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
         echo "Ошибка скачивания";
     }
 
+}
+
+/**
+ * Осуществляет поиск города в массиве городов без учета регистра
+ * @param array $locations
+ */
+function querySearch(array $locations)
+{
+    $query = $_POST['query'];
+    foreach ($locations as $location) {
+        if (mb_stripos($location['city'], $query, 0, 'UTF-8') !== false) {
+            $searchLocations[] = $location;
+        }
+    }
+    header('Content-type: application/json');
+    if (!empty($searchLocations)) {
+        echo json_encode($searchLocations);
+    } else {
+        echo 'Не найдено результатов';
+    }
+}
+
+/**
+ * Устанавливает выбранный город
+ * @param array $locations
+ * @return bool
+ */
+function setSelectedCity(array $locations)
+{
+    foreach ($locations as $location) {
+        if (intval($_POST['selected_city']) === intval($location['cityId'])) {
+            setcookie("CIPG_CITY", $location['city']);
+            return true;
+        }
+    }
+    return false;
+}
+
+if (file_exists($path)) {
+    $ip = new RemoteAddress();
+    try {
+        $ipGeoBase = new IpGeoBase($path);
+    } catch (Exception $e) {
+        echo "Ошибка создания обьекта класса ipGeoBase";
+    }
+
+    $info =  $ipGeoBase->search('94.181.214.151');
+
+    if (!isset($_COOKIE['CIPG_CITY'])) {
+        $_COOKIE['CIPG_CITY'] = $info['city'];
+    }
+
+    $locations = $ipGeoBase->listLocations();
+
+    if (isset($_POST['query'])) {
+        querySearch($locations);
+    } else if (isset($_POST['selected_city'])) {
+        setSelectedCity($locations);
+    } else {
+        echo $_COOKIE['CIPG_CITY'];
+    }
+
+} else {
+    echo "Не найдена база городов, загрузите /cipg/cipg.php?upload_db=y";
 }
