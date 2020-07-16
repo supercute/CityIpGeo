@@ -26,8 +26,10 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
     $('#cipg-search').on('input', function () {
-        if ($("input[id$='cipg-search']").length > 0) {
+        if ($('#cipg-search').val().length > 0) {
             $('#cipg-search__dropdown').show();
+        } else {
+            $('#cipg-search__dropdown').css('display', 'none');
         }
 
         $('#cipg-search__dropdown').empty();
