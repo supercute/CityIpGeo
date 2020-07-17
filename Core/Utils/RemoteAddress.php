@@ -3,7 +3,6 @@
 
 namespace CIPG\Utils;
 
-
 class RemoteAddress
 {
     /**
@@ -92,5 +91,4 @@ class RemoteAddress
         $ip = array_pop($ips);
         return $ip;
     }
-
 }

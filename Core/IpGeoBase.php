@@ -16,7 +16,7 @@ class IpGeoBase
     private $path;
     /**
      * Ресурс полученый функцией fopen на файл с данными
-     * @var resource 
+     * @var resource
      */
     private $handle;
     /**
@@ -37,7 +37,7 @@ class IpGeoBase
         $this->path = rtrim($path, '/');
         $this->handle = @fopen($this->path . '/db.bin', 'rb');
         
-        if(!$this->handle){
+        if (!$this->handle) {
             throw new \Exception('Can\'t open db');
         }
         
@@ -55,7 +55,7 @@ class IpGeoBase
     
     /**
      * Ищет информацию о IP адресе и возвращет её
-     * 
+     *
      * @param string $ip IP адрес в формате 127.0.0.1
      * @return array|null
      */
@@ -63,8 +63,7 @@ class IpGeoBase
     {
         $block = $this->searchIpBlock($ip);
         
-        if($block){
-            
+        if ($block) {
             $city = $this->searchCity($block[2]);
             $city[] = long2ip($block[0]);
             $city[] = long2ip($block[1]);
@@ -92,7 +91,10 @@ class IpGeoBase
      */
     private function searchCity($cityNum)
     {
-        $offset = $this->meta['maxLenBlockIps'] * $this->meta['countIpBlock'] + $this->meta['maxLenBlockCities'] * (int)$cityNum - $this->meta['maxLenBlockCities'];
+        $offset = $this->meta['maxLenBlockIps'] *
+            $this->meta['countIpBlock'] +
+            $this->meta['maxLenBlockCities'] *
+            (int)$cityNum - $this->meta['maxLenBlockCities'];
         fseek($this->handle, $offset);
         $buffer = rtrim(fread($this->handle, $this->meta['maxLenBlockCities']));
         
@@ -111,7 +113,7 @@ class IpGeoBase
 
         $list = array();
 
-        for($i = 1; $i <= $this->meta['countCitiesBlock']; $i++){
+        for ($i = 1; $i <= $this->meta['countCitiesBlock']; $i++) {
             $buffer = rtrim(fread($this->handle, $this->meta['maxLenBlockCities']));
             $list[] =
                 array_combine(array(
@@ -141,18 +143,16 @@ class IpGeoBase
         $first = 0;
         $last = $this->meta['countIpBlock'];
 
-        while($first <= $last){
+        while ($first <= $last) {
             $mid = $first + ceil(($last - $first) / 2);
 
             $block = $this->getIpBlock($mid);
 
-            if($block[0] <= $ip AND $ip <= $block[1]){
+            if ($block[0] <= $ip and $ip <= $block[1]) {
                 return $block;
-            }
-            elseif($block[0] >= $ip){
+            } elseif ($block[0] >= $ip) {
                 $last = $mid - 1;
-            }
-            else{
+            } else {
                 $first = $mid + 1;
             }
         }
@@ -162,7 +162,7 @@ class IpGeoBase
 
     /**
      * Возвращает блок с диапазоном IP адресов основываясь на его положении в БД
-     * 
+     *
      * @param int $numBlock
      * @return array
      */
@@ -174,9 +174,9 @@ class IpGeoBase
         
         $block = array();
         $t = array();
-        for($i = 0; $i < 8; $i++){
+        for ($i = 0; $i < 8; $i++) {
             $t[] = ord($bufer{$i});
-            if(count($t) == 4){
+            if (count($t) == 4) {
                 $block[] = ip2long(implode('.', $t));
                 $t = array();
             }
@@ -186,8 +186,4 @@ class IpGeoBase
         
         return $block;
     }
-
-    
-    
-    
 }

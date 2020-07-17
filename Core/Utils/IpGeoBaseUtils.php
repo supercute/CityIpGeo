@@ -13,7 +13,7 @@ class IpGeoBaseUtils
     
     /**
      * Загружает и распаковывает данные с ipgeobase.ru
-     * 
+     *
      * @param string $path Путь до каталога с БД
      * @return boolean
      */
@@ -69,15 +69,15 @@ class IpGeoBaseUtils
     
     /**
      * Упаковывает гео информацию в файл
-     * 
+     *
      * @param array $cities
      * @param resource $handle
      * @return int максимальная длина блока с гео информацией
      */
     private function packCities($cities, $handle)
     {
-        uasort($cities, function($a, $b){
-            if($a['realId'] == $b['realId']) {
+        uasort($cities, function ($a, $b) {
+            if ($a['realId'] == $b['realId']) {
                 return 0;
             }
             return ($a['realId'] < $b['realId']) ? -1 : 1;
@@ -85,37 +85,40 @@ class IpGeoBaseUtils
         
         $maxLen = 0;
         
-        foreach($cities as $item){
+        foreach ($cities as $item) {
             $len = strlen(
                 $item['country'] . chr(0) .
                 $item['cityId'] . chr(0) .
-                $item['city'] . chr(0) . 
-                $item['region'] . chr(0) . 
-                $item['district'] . chr(0) . 
-                $item['latitude'] . chr(0) . 
-                $item['longitude'] 
-                );
-            if($maxLen < $len){
+                $item['city'] . chr(0) .
+                $item['region'] . chr(0) .
+                $item['district'] . chr(0) .
+                $item['latitude'] . chr(0) .
+                $item['longitude']
+            );
+            if ($maxLen < $len) {
                 $maxLen = $len;
             }
         }
         
-        foreach($cities as $item){
-            fwrite($handle, 
-                            str_pad(
-                                    $item['country'] . chr(0) .
-                                    $item['cityId'] . chr(0) .
-                                    $item['city'] . chr(0) .
-                                    $item['region'] . chr(0) .
-                                    $item['district'] . chr(0) .
-                                    $item['latitude'] . chr(0) .
-                                    $item['longitude'],
-                                    $maxLen, ' ', STR_PAD_RIGHT
-                                    )
-                    );
+        foreach ($cities as $item) {
+            fwrite(
+                $handle,
+                str_pad(
+                    $item['country'] . chr(0) .
+                    $item['cityId'] . chr(0) .
+                    $item['city'] . chr(0) .
+                    $item['region'] . chr(0) .
+                    $item['district'] . chr(0) .
+                    $item['latitude'] . chr(0) .
+                    $item['longitude'],
+                    $maxLen,
+                    ' ',
+                    STR_PAD_RIGHT
+                )
+            );
         }
         
-        return $maxLen; 
+        return $maxLen;
     }
 
 
@@ -130,12 +133,13 @@ class IpGeoBaseUtils
 
     private function packIps($ipBlocks, $handle)
     {
-        foreach($ipBlocks as $item){
-            fwrite($handle, 
-                $this->packIp($item['start']) . 
+        foreach ($ipBlocks as $item) {
+            fwrite(
+                $handle,
+                $this->packIp($item['start']) .
                 $this->packIp($item['stop']) .
                 $this->packSityId($item['cityId'])
-            );  
+            );
         }
         return true;
     }
@@ -171,8 +175,8 @@ class IpGeoBaseUtils
     private function normalizeIpAndCities(&$ipBlocks, &$cities)
     {
         //Удаляем города которые отсутсвуют в блоках с IP адресами
-        foreach($ipBlocks as &$block){
-            if(array_key_exists($block['cityId'], $cities)){
+        foreach ($ipBlocks as &$block) {
+            if (array_key_exists($block['cityId'], $cities)) {
                 $citiesTmp[$block['cityId']] = $cities[$block['cityId']];
             }
         }
@@ -184,8 +188,8 @@ class IpGeoBaseUtils
         $i = 1;
         $cities[0]['realId'] = $i;
         
-        foreach($cities as $id => &$item){
-            if($id){
+        foreach ($cities as $id => &$item) {
+            if ($id) {
                 $i++;
                 $item['realId'] = $i;
             }
@@ -193,14 +197,14 @@ class IpGeoBaseUtils
         // ==== //
         
         
-        foreach($ipBlocks as &$block){
+        foreach ($ipBlocks as &$block) {
             $cities[$block['cityId']]['country'] = $block['country'];
             $block['cityId'] = $cities[$block['cityId']]['realId'];
             unset($block['country']);
         }
         
-        uasort($ipBlocks, function($a, $b){
-            if($a['start'] == $b['start']) {
+        uasort($ipBlocks, function ($a, $b) {
+            if ($a['start'] == $b['start']) {
                 return 0;
             }
             return ($a['start'] < $b['start']) ? -1 : 1;
@@ -210,7 +214,7 @@ class IpGeoBaseUtils
 
     /**
      * Возвращает массив с диапазонами IP адресов
-     * 
+     *
      * @param string $path
      * @return array
      * @throws \Exception
@@ -221,12 +225,13 @@ class IpGeoBaseUtils
         
         $ipBlocks = array();
         
-        if($handle){
-            while(($buffer = fgets($handle, 4096)) !== false){
+        if ($handle) {
+            while (($buffer = fgets($handle, 4096)) !== false) {
                 $t = array_map('trim', explode("\t", $buffer));
                 
-                if($t[4] == '-')
+                if ($t[4] == '-') {
                     $t[4] = 0;
+                }
                 
                 $ipBlocks[] = array(
                     'start' => $t[0],
@@ -234,9 +239,8 @@ class IpGeoBaseUtils
                     'country' => $t[3],
                     'cityId' => $t[4],
                 );
-                
             }
-            if(!feof($handle)) {
+            if (!feof($handle)) {
                 throw new \Exception('Error: unexpected fgets() fail');
             }
             fclose($handle);
@@ -267,8 +271,8 @@ class IpGeoBaseUtils
             'longitude' => 'unknown',
         );
         
-        if($handle){
-            while(($buffer = fgets($handle, 4096)) !== false){
+        if ($handle) {
+            while (($buffer = fgets($handle, 4096)) !== false) {
                 $t = array_map('trim', explode("\t", $buffer));
                 $cities[$t[0]] = array(
                     'country' => 'unknown',
@@ -280,15 +284,11 @@ class IpGeoBaseUtils
                     'longitude' => $t[5],
                 );
             }
-            if(!feof($handle)){
+            if (!feof($handle)) {
                 throw new \Exception('Error: unexpected fgets() fail');
             }
             fclose($handle);
         }
         return $cities;
     }
-    
-    
-    
-    
 }
