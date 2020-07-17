@@ -1,5 +1,6 @@
 <?php
 use CIPG\Utils\IpGeoBaseUtils;
+
 require_once 'Core/Utils/IpGeoBaseUtils.php';
 
 define("PATH", __DIR__ . '/DB');
@@ -14,8 +15,7 @@ if (isset($_GET['Y'])) {
         $util->loadArchive(PATH);
         $util->convertInBinary(PATH);
         echo "База городов успешно загружена";
-
-    } catch (Exception $e){
+    } catch (Exception $e) {
         echo "Ошибка скачивания";
     }
 }
