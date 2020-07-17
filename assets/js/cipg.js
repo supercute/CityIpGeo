@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+    let rootDir = 'cityipgeo';
     $('#cipg-city').attr('href', '#cipg-modal');
     $('#cipg-city').attr('rel', 'modal:open');
     $('body').append(
@@ -15,13 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
     $('#cipg-search__dropdown').hide();
     $.ajax({
         type: 'POST',
-        url: '/cipg.php',
+        url: rootDir + '/cipg.php',
         data: 'get_city = Y',
         success: function(data) {
             $("#cipg-city").html(data);
         }
     });
-    $.getJSON( "default_cities.json", function (data) { // указываем url и функцию обратного вызова
+    $.getJSON(rootDir + "default_cities.json", function (data) { // указываем url и функцию обратного вызова
         $('.cipg-cities').append('<ul></ul>');
         $.each(data, function(cityId, city) {
             $('.cipg-cities ul').append('<li><a href="#" class="cipg-cities__item" id="'+cityId+'">'+city+'</a></li>');
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $('#cipg-search__dropdown').empty();
         $.ajax({
            type: 'POST',
-           url: '/cipg.php',
+           url: rootDir + '/cipg.php',
            dataType: 'json',
            data: "query=" + $("#cipg-search").val(),
            success: function (data) {
@@ -58,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
        $('#' + id + '.'+selectorClass).click(function () {
             $.ajax({
                 type: 'POST',
-                url: '/cipg.php',
+                url: rootDir + '/cipg.php',
                 data: "selected_city=" + selectedCity,
                 success: function () {
                     window.location.reload(true); //Перезагружает страницу без кеша
