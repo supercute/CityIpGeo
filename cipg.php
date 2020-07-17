@@ -1,30 +1,12 @@
 <?php
 
 use CIPG\Core\IpGeoBase;
-use CIPG\Utils\IpGeoBaseUtils;
 use CIPG\Utils\RemoteAddress;
 
 require_once 'Core/Utils/RemoteAddress.php';
 require_once 'Core/IpGeoBase.php';
 require_once 'Core/Utils/IpGeoBaseUtils.php';
-
-$path = __DIR__ . '/DB';
-
-if (isset($_GET['upload_db']) && $_GET['upload_db'] == 'y') {
-    /**
-     * Загружает данные с ipgeobase.ru и конвертирует в бинарный файл
-     * Данные обновляеются ежедневно, имеет смысл поставить задачу на крон
-     */
-    $util = new IpGeoBaseUtils();
-    try {
-        $util->loadArchive($path);
-        $util->convertInBinary($path);
-        echo "База городов успешно загружена";
-
-    } catch (Exception $e){
-        echo "Ошибка скачивания";
-    }
-}
+require_once 'uploadDB.php';
 
 /**
  * Осуществляет поиск города в массиве городов без учета регистра
@@ -62,9 +44,9 @@ function setSelectedCity(array $locations)
     return false;
 }
 
-if (file_exists($path)) {
+if (file_exists(PATH)) {
     try {
-        $ipGeoBase = new IpGeoBase($path);
+        $ipGeoBase = new IpGeoBase(PATH);
     } catch (Exception $e) {
         echo "Ошибка создания обьекта класса ipGeoBase";
     }
@@ -88,5 +70,5 @@ if (file_exists($path)) {
     }
 
 } else {
-    echo "Не найдена база городов, загрузите /cipg/cipg.php?upload_db=y";
+    echo "Не найдена база городов";
 }
