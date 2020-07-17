@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ruleset name="PSR2R">
+    <description>PSR-2</description>
+    <rule ref="PSR2">
+        <exclude name="Generic.PHP.DisallowShortOpenTag"/>
+        <exclude name="Generic.Files.LineEndings"/>
+    </rule>
+    <rule ref="PSR1.Files.SideEffects">
+        <exclude-pattern>*</exclude-pattern>
+    </rule>
+</ruleset>

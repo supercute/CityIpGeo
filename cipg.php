@@ -63,12 +63,11 @@ if (file_exists(PATH)) {
 
     if (isset($_POST['query'])) {
         querySearch($locations);
-    } else if (isset($_POST['selected_city'])) {
+    } elseif (isset($_POST['selected_city'])) {
         setSelectedCity($locations);
     } else {
         echo $_COOKIE['CIPG_CITY'];
     }
-
 } else {
     echo "Не найдена база городов";
 }
